@@ -18,6 +18,7 @@ function EditPost(props) {
               <Grid item className={props.classes.element}>
                 <DefaultValue value={props.title}>
                   <TextField
+                    data-testid="title"
                     defaultValue={props.title}
                     label="title"
                     name="title"
@@ -27,9 +28,11 @@ function EditPost(props) {
               <Grid item className={props.classes.element}>
                 <DefaultValue value={props.body}>
                   <TextField
+                    data-testid="body"
                     defaultValue={props.body}
                     label="body"
                     name="body"
+                    multiline
                   />
                 </DefaultValue>
               </Grid>
@@ -57,6 +60,7 @@ const styles = {
     padding: 20
   },
   element: {
+    width: "100%",
     margin: 10
   }
 };

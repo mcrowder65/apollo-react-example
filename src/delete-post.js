@@ -16,6 +16,7 @@ function DeletePost(props) {
         {(deletePost, { loading }) => {
           return (
             <LoaderButton
+              data-testid={`delete-post-${props.id}`}
               isLoading={loading}
               color="primary"
               variant="contained"
