@@ -7,5 +7,6 @@ export const GET_POSTS = gql`
       body
       title
     }
+    isConnected @client
   }
 `;

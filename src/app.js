@@ -4,7 +4,19 @@ import { ApolloProvider } from "react-apollo";
 import Posts from "./posts";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql"
+  uri: "http://localhost:4000/graphql",
+  clientState: {
+    defaults: {
+      isConnected: true
+    },
+    resolvers: {
+      Mutation: {
+        updateNetworkStatus: (_, { isConnected }, { cache }) => {
+          cache.writeData({ data: { isConnected } });
+        }
+      }
+    }
+  }
 });
 function App() {
   return (

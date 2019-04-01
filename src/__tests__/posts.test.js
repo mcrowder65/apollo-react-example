@@ -10,9 +10,19 @@ import { MockedProvider } from "react-apollo/test-utils";
 import { GET_POSTS } from "../graphql/queries";
 import { CREATE_POST, DELETE_POST, UPDATE_POST } from "../graphql/mutations";
 
-const render = (yourUi, { mocks = [], addTypeName = true } = {}) => {
+const render = (yourUi, { mocks = [], addTypeName = false } = {}) => {
   return rtlRender(
-    <MockedProvider mocks={mocks} addTypename={addTypeName}>
+    <MockedProvider
+      mocks={mocks}
+      addTypename={addTypeName}
+      resolvers={{
+        Mutation: {
+          updateNetworkStatus: (_, { isConnected }, { cache }) => {
+            cache.writeData({ data: { isConnected } });
+          }
+        }
+      }}
+    >
       {yourUi}
     </MockedProvider>
   );
@@ -36,7 +46,8 @@ test("that it renders posts and you can delete posts", async () => {
               id: "react-asdf",
               __typename: "Post"
             }
-          ]
+          ],
+          isConnected: true
         }
       }
     },
@@ -100,14 +111,14 @@ test("that it renders posts and you can delete posts", async () => {
   });
   // VIEW
   await waitForElement(() => getByText(/loading.../i));
-  await sleep(0);
+  await sleep(100);
   expect(getByText(/how to learn react/i)).toBeInTheDocument();
 
   // UPDATE
   fireEvent.click(getByTestId("open-edit-post-react-asdf"));
   getByTestId("title").value = "How to learn vue";
   fireEvent.click(getByTestId("submit"));
-  await sleep(0);
+  await sleep(100);
   expect(queryByText(/how to learn react/i)).toBeNull();
 
   expect(getByText(/how to learn vue/i)).toBeInTheDocument();
@@ -115,7 +126,7 @@ test("that it renders posts and you can delete posts", async () => {
   // DELETE
   fireEvent.click(getByTestId("delete-post-react-asdf"));
 
-  await sleep(0);
+  await sleep(100);
   expect(queryByText(/how to learn vue/i)).toBeNull();
 
   //  CREATE
@@ -124,7 +135,7 @@ test("that it renders posts and you can delete posts", async () => {
   getByTestId("title").value = "How to learn angular";
   getByTestId("body").value = "Angular is cool, i guess?";
   fireEvent.click(getByTestId("submit"));
-  await sleep(0);
+  await sleep(100);
 
   expect(getByText(/how to learn angular/i)).toBeInTheDocument();
   expect(getByText(/Angular is cool, i guess?/i)).toBeInTheDocument();

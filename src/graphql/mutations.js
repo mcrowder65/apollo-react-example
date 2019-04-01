@@ -29,3 +29,9 @@ export const UPDATE_POST = gql`
     }
   }
 `;
+
+export const UPDATE_NETWORK_STATUS = gql`
+  mutation updateNetworkStatus($isConnected: Boolean) {
+    updateNetworkStatus(isConnected: $isConnected) @client
+  }
+`;

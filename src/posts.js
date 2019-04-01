@@ -1,17 +1,8 @@
 import React from "react";
 import { Query } from "react-apollo";
-import { gql } from "apollo-boost";
 import Post from "./post";
 import AddPost from "./add-post";
-const GET_POSTS = gql`
-  query {
-    posts {
-      id
-      body
-      title
-    }
-  }
-`;
+import { GET_POSTS } from "./graphql/queries";
 const Posts = () => {
   return (
     <Query query={GET_POSTS} errorPolicy="all">
@@ -21,6 +12,7 @@ const Posts = () => {
         }
 
         if (error) {
+          // eslint-disable-next-line no-console
           console.error(error);
           return "error :(";
         }
