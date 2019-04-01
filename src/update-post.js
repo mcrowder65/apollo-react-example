@@ -1,6 +1,6 @@
 import React from "react";
 import { Mutation } from "react-apollo";
-import { useLocalStorageSetState, getElements, LoaderButton } from "mooks";
+import { useLocalStorageSetState, getElements } from "mooks";
 import { UPDATE_POST } from "./graphql/mutations";
 import { GET_POSTS } from "./graphql/queries";
 import { Button, Modal } from "@material-ui/core";

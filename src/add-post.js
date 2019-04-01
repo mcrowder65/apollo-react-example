@@ -13,7 +13,6 @@ function AddPost() {
       <Mutation
         mutation={CREATE_POST}
         update={(cache, { data: { createPost } }) => {
-          debugger;
           cache.writeQuery({ query: GET_POSTS, data: { posts: createPost } });
         }}
       >

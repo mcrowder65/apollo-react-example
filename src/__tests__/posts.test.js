@@ -95,7 +95,7 @@ test("that it renders posts and you can delete posts", async () => {
       }
     }
   ];
-  const { getByText, getByTestId, queryByText, debug } = render(<Posts />, {
+  const { getByText, getByTestId, queryByText } = render(<Posts />, {
     mocks
   });
   // VIEW
@@ -117,21 +117,14 @@ test("that it renders posts and you can delete posts", async () => {
 
   await sleep(0);
   expect(queryByText(/how to learn vue/i)).toBeNull();
-  debug();
 
   //  CREATE
 
   fireEvent.click(getByTestId("open-create-modal"));
-  debug();
-  debugger;
   getByTestId("title").value = "How to learn angular";
   getByTestId("body").value = "Angular is cool, i guess?";
-  debug();
-  debugger;
   fireEvent.click(getByTestId("submit"));
-  debug();
   await sleep(0);
-  debugger;
 
   expect(getByText(/how to learn angular/i)).toBeInTheDocument();
   expect(getByText(/Angular is cool, i guess?/i)).toBeInTheDocument();
