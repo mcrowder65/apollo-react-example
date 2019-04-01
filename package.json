@@ -19,11 +19,6 @@
     "test": "react-scripts test --coverage --silent",
     "eject": "react-scripts eject"
   },
-  "jest": {
-    "setupFiles": [
-      "jest-localstorage-mock"
-    ]
-  },
   "eslintConfig": {
     "extends": "mcrowder65"
   },
