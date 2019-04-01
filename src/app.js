@@ -4,10 +4,7 @@ import { ApolloProvider } from "react-apollo";
 import Posts from "./posts";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
-  fetchOptions: {
-    mode: "no-cors"
-  }
+  uri: "http://localhost:4000/graphql"
 });
 function App() {
   return (
