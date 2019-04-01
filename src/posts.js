@@ -1,6 +1,8 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
+import Post from "./post";
+import AddPost from "./add-post";
 const GET_POSTS = gql`
   query {
     posts {
@@ -14,9 +16,6 @@ const Posts = () => {
   return (
     <Query query={GET_POSTS} errorPolicy="all">
       {({ loading, error, data }) => {
-        if (data) {
-          console.log(data);
-        }
         if (loading) {
           return "loading...";
         }
@@ -25,7 +24,14 @@ const Posts = () => {
           console.error(error);
           return "error :(";
         }
-        return JSON.stringify(data);
+        return (
+          <>
+            <AddPost />
+            {data.posts.map(post => {
+              return <Post {...post} key={post.id} />;
+            })}
+          </>
+        );
       }}
     </Query>
   );
