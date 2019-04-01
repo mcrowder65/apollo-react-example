@@ -13,6 +13,7 @@ function AddPost() {
       <Mutation
         mutation={CREATE_POST}
         update={(cache, { data: { createPost } }) => {
+          debugger;
           cache.writeQuery({ query: GET_POSTS, data: { posts: createPost } });
         }}
       >
@@ -34,6 +35,7 @@ function AddPost() {
                 />
               </Modal>
               <Button
+                data-testid="open-create-modal"
                 variant="contained"
                 color="primary"
                 onClick={() => setOpen(true)}

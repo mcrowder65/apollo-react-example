@@ -1,10 +1,14 @@
 import React from "react";
-import { render as rtlRender, waitForElement } from "react-testing-library";
+import {
+  render as rtlRender,
+  waitForElement,
+  fireEvent
+} from "react-testing-library";
 import { sleep } from "mooks";
 import Posts from "../posts";
 import { MockedProvider } from "react-apollo/test-utils";
 import { GET_POSTS } from "../graphql/queries";
-import { DELETE_POST } from "../graphql/mutations";
+import { CREATE_POST, DELETE_POST, UPDATE_POST } from "../graphql/mutations";
 
 const render = (yourUi, { mocks = [], addTypeName = true } = {}) => {
   return rtlRender(
@@ -35,23 +39,100 @@ test("that it renders posts and you can delete posts", async () => {
           ]
         }
       }
+    },
+    {
+      request: {
+        query: DELETE_POST,
+        variables: { id: "react-asdf" }
+      },
+      result: {
+        data: {
+          deletePost: []
+        }
+      }
+    },
+    {
+      request: {
+        query: UPDATE_POST,
+        variables: {
+          id: "react-asdf",
+          title: "How to learn vue",
+          body: "learning react is awesome!"
+        }
+      },
+      result: {
+        data: {
+          updatePost: [
+            {
+              title: "How to learn vue",
+              body: "learning react is awesome!",
+              id: "react-asdf",
+              __typename: "Post"
+            }
+          ]
+        }
+      }
+    },
+    {
+      request: {
+        query: CREATE_POST,
+        variables: {
+          title: "How to learn angular",
+          body: "Angular is cool, i guess?"
+        }
+      },
+      result: {
+        data: {
+          createPost: [
+            {
+              id: "angular-asdf",
+              title: "How to learn angular",
+              body: "Angular is cool, i guess?",
+              __typename: "Post"
+            }
+          ]
+        }
+      }
     }
-    // {
-    //   request: {
-    //     mutation: DELETE_POST,
-    //     variables: { id: "react-asdf" }
-    //   },
-    //   result: {
-    //     data: {
-    //       deletePost: {
-    //         posts: []
-    //       }
-    //     }
-    //   }
-    // }
   ];
-  const { getByText } = render(<Posts />, { mocks });
+  const { getByText, getByTestId, queryByText, debug } = render(<Posts />, {
+    mocks
+  });
+  // VIEW
   await waitForElement(() => getByText(/loading.../i));
   await sleep(0);
   expect(getByText(/how to learn react/i)).toBeInTheDocument();
+
+  // UPDATE
+  fireEvent.click(getByTestId("open-edit-post-react-asdf"));
+  getByTestId("title").value = "How to learn vue";
+  fireEvent.click(getByTestId("submit"));
+  await sleep(0);
+  expect(queryByText(/how to learn react/i)).toBeNull();
+
+  expect(getByText(/how to learn vue/i)).toBeInTheDocument();
+
+  // DELETE
+  fireEvent.click(getByTestId("delete-post-react-asdf"));
+
+  await sleep(0);
+  expect(queryByText(/how to learn vue/i)).toBeNull();
+  debug();
+
+  //  CREATE
+
+  fireEvent.click(getByTestId("open-create-modal"));
+  debug();
+  debugger;
+  getByTestId("title").value = "How to learn angular";
+  getByTestId("body").value = "Angular is cool, i guess?";
+  debug();
+  debugger;
+  fireEvent.click(getByTestId("submit"));
+  debug();
+  await sleep(0);
+  debugger;
+
+  expect(getByText(/how to learn angular/i)).toBeInTheDocument();
+  expect(getByText(/Angular is cool, i guess?/i)).toBeInTheDocument();
 });

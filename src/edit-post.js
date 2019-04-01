@@ -18,7 +18,7 @@ function EditPost(props) {
               <Grid item className={props.classes.element}>
                 <DefaultValue value={props.title}>
                   <TextField
-                    data-testid="title"
+                    inputProps={{ "data-testid": "title" }}
                     defaultValue={props.title}
                     label="title"
                     name="title"
@@ -28,7 +28,7 @@ function EditPost(props) {
               <Grid item className={props.classes.element}>
                 <DefaultValue value={props.body}>
                   <TextField
-                    data-testid="body"
+                    inputProps={{ "data-testid": "body" }}
                     defaultValue={props.body}
                     label="body"
                     name="body"
@@ -42,6 +42,7 @@ function EditPost(props) {
                   isLoading={props.isLoading}
                   variant="contained"
                   color="primary"
+                  data-testid="submit"
                 >
                   SUBMIT
                 </LoaderButton>
