@@ -11,8 +11,8 @@ const client = new ApolloClient({
     },
     resolvers: {
       Mutation: {
-        updateNetworkStatus: (_, { isConnected }, { cache }) => {
-          cache.writeData({ data: { isConnected } });
+        updateNetworkStatus: (_, parameters, { cache }) => {
+          cache.writeData({ data: { isConnected: parameters.isConnected } });
         }
       }
     }

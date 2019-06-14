@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "@material-ui/core";
+import { Card, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import DeletePost from "./delete-post";
 import UpdatePost from "./update-post";
@@ -7,10 +7,20 @@ import UpdatePost from "./update-post";
 function Post(props) {
   return (
     <Card className={props.classes.card}>
-      {props.title} <br /> {props.body}
+      <Grid container justify="center" alignItems="center">
+        <Grid item>
+          {props.title} <br /> {props.body}
+        </Grid>
+      </Grid>
       <br />
-      <DeletePost id={props.id} />
-      <UpdatePost id={props.id} title={props.title} body={props.body} />
+      <Grid container justify="space-evenly" alignItems="center">
+        <Grid item>
+          <DeletePost id={props.id} />
+        </Grid>
+        <Grid item>
+          <UpdatePost id={props.id} title={props.title} body={props.body} />
+        </Grid>
+      </Grid>
     </Card>
   );
 }

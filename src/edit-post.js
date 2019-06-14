@@ -18,9 +18,10 @@ function EditPost(props) {
               <Grid item className={props.classes.element}>
                 <DefaultValue value={props.title}>
                   <TextField
+                    required
                     inputProps={{ "data-testid": "title" }}
                     defaultValue={props.title}
-                    label="title"
+                    label="Title"
                     name="title"
                   />
                 </DefaultValue>
@@ -28,9 +29,10 @@ function EditPost(props) {
               <Grid item className={props.classes.element}>
                 <DefaultValue value={props.body}>
                   <TextField
+                    required
                     inputProps={{ "data-testid": "body" }}
                     defaultValue={props.body}
-                    label="body"
+                    label="Body"
                     name="body"
                     multiline
                   />
